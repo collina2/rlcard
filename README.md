@@ -102,7 +102,7 @@ pip3 install rlcard
 ```
 The default installation will only include the card environments. To use PyTorch implementation of the training algorithms, run
 ```
-pip3 install rlcard[torch]
+pip3 install 'rlcard[torch]'
 ```
 If you are in China and the above command is too slow, you can use the mirror provided by Tsinghua University:
 ```
