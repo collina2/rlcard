@@ -120,7 +120,7 @@ Then install with
 ```
 cd rlcard
 pip3 install -e .
-pip3 install -e .[torch]
+pip3 install -e '.[torch]'
 ```
 
 We also provide [**conda** installation method](https://anaconda.org/toubun/rlcard):
