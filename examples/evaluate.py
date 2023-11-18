@@ -59,7 +59,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--env',
         type=str,
-        default='leduc-holdem',
+        default='uno',
         choices=[
             'blackjack',
             'leduc-holdem',
@@ -75,9 +75,11 @@ if __name__ == '__main__':
         '--models',
         nargs='*',
         default=[
-            'experiments/leduc_holdem_dqn_result/model.pth',
+            'experiments/uno_dqn_result/model.pth',
             'random',
-        ],
+        ], # add in our own model here later when we change it
+        # compare against regular model, our model, and random
+        # but may need to adjust player size (from 2 to 3)
     )
     parser.add_argument(
         '--cuda',
@@ -92,7 +94,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--num_games',
         type=int,
-        default=10000,
+        default=1000,
     )
 
     args = parser.parse_args()

@@ -111,7 +111,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--env',
         type=str,
-        default='leduc-holdem',
+        default='uno',
         choices=[
             'blackjack',
             'leduc-holdem',
@@ -146,22 +146,22 @@ if __name__ == '__main__':
     parser.add_argument(
         '--num_episodes',
         type=int,
-        default=5000,
+        default=100,
     )
     parser.add_argument(
         '--num_eval_games',
         type=int,
-        default=2000,
+        default=100,
     )
     parser.add_argument(
         '--evaluate_every',
         type=int,
-        default=100,
+        default=10,
     )
     parser.add_argument(
         '--log_dir',
         type=str,
-        default='experiments/leduc_holdem_dqn_result/',
+        default='experiments/uno_dqn_result/',
     )
     
     parser.add_argument(
