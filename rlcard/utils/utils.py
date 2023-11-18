@@ -207,6 +207,7 @@ def tournament(env, num):
     Returns:
         A list of avrage payoffs for each player
     '''
+    print("Tournament function")
     payoffs = [0 for _ in range(env.num_players)]
     counter = 0
     while counter < num:
@@ -221,7 +222,9 @@ def tournament(env, num):
                 payoffs[i] += _payoffs[i]
             counter += 1
     for i, _ in enumerate(payoffs):
+        print(i, payoffs)
         payoffs[i] /= counter
+    
     return payoffs
 
 def plot_curve(csv_path, save_path, algorithm):
