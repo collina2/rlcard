@@ -3,11 +3,17 @@
 import os
 import argparse
 
+import sys
+
+sys.path.insert(1, '../')
+
 import rlcard
+print(rlcard)
 from rlcard.agents import (
     DQNAgent,
-    RandomAgent,
+    NFSPAgent
 )
+
 from rlcard.utils import (
     get_device,
     set_seed,
@@ -75,6 +81,7 @@ if __name__ == '__main__':
         '--models',
         nargs='*',
         default=[
+            'experiments/uno_nfsp_result/model.pth',
             'experiments/uno_dqn_result/model.pth',
             'random',
         ], # add in our own model here later when we change it
@@ -94,8 +101,14 @@ if __name__ == '__main__':
     parser.add_argument(
         '--num_games',
         type=int,
-        default=1000,
+        default=100,
     )
+
+    # 2/3 = 0.67 better = 33% worse
+
+    # x = -0.2
+    # percentWon = (x + 1) / 2
+
 
     args = parser.parse_args()
 

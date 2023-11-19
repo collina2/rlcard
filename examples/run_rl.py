@@ -5,6 +5,10 @@ import argparse
 
 import torch
 
+import sys
+
+sys.path.insert(1, '../')
+
 import rlcard
 from rlcard.agents import RandomAgent
 from rlcard.utils import (
@@ -12,9 +16,12 @@ from rlcard.utils import (
     set_seed,
     tournament,
     reorganize,
-    Logger,
     plot_curve,
+    Logger
 )
+# from rlcard.utils.logger import (
+#     Logger
+# )
 
 def train(args):
 
@@ -127,7 +134,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--algorithm',
         type=str,
-        default='dqn',
+        default='nfsp',
         choices=[
             'dqn',
             'nfsp',
@@ -156,12 +163,12 @@ if __name__ == '__main__':
     parser.add_argument(
         '--evaluate_every',
         type=int,
-        default=10,
+        default=1,
     )
     parser.add_argument(
         '--log_dir',
         type=str,
-        default='experiments/uno_dqn_result/',
+        default='experiments/uno_nfsp_result/',
     )
     
     parser.add_argument(
