@@ -30,7 +30,7 @@ class Env(object):
         # Game specific configurations
         # Currently only support blackjack、limit-holdem、no-limit-holdem
         # TODO support game configurations for all the games
-        supported_envs = ['blackjack', 'leduc-holdem', 'limit-holdem', 'no-limit-holdem']
+        supported_envs = ['blackjack', 'leduc-holdem', 'limit-holdem', 'no-limit-holdem', 'uno']
         if self.name in supported_envs:
             _game_config = self.default_game_config.copy()
             for key in config:
@@ -40,6 +40,7 @@ class Env(object):
 
         # Get the number of players/actions in this game
         self.num_players = self.game.get_num_players()
+        print("NUM PLAYERS: ", self.num_players)
         self.num_actions = self.game.get_num_actions()
 
         # A counter for the timesteps

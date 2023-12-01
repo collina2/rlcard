@@ -7,7 +7,10 @@ import sys
 
 sys.path.insert(1, '../')
 
+
+
 import rlcard
+from rlcard import models
 print(rlcard)
 from rlcard.agents import (
     DQNAgent,

@@ -1,17 +1,26 @@
 ''' A toy example of playing against rule-based bot on UNO
 '''
 
+import sys
+
+sys.path.insert(1, '../../')
+
 import rlcard
 from rlcard import models
 from rlcard.agents.human_agents.uno_human_agent import HumanAgent, _print_action
+from rlcard.agents.random_agent import RandomAgent
 
 # Make environment
 env = rlcard.make('uno')
 human_agent = HumanAgent(env.num_actions)
-cfr_agent = models.load('uno-rule-v1').agents[0]
+# cfr_agent = models.load('uno-rule-v1').agents[0]
+randomAgent1 = RandomAgent(env.num_actions)
+randomAgent2 = RandomAgent(env.num_actions)
+
 env.set_agents([
     human_agent,
-    cfr_agent,
+    randomAgent1,
+    randomAgent2
 ])
 
 print(">> UNO rule model V1")
