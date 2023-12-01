@@ -8,7 +8,7 @@ from rlcard.games.uno import Round
 
 class UnoGame:
 
-    def __init__(self, allow_step_back=False, num_players=3):
+    def __init__(self, allow_step_back=False, num_players=2):
         self.allow_step_back = allow_step_back
         self.np_random = np.random.RandomState()
         self.num_players = num_players

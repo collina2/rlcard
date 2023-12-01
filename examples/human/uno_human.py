@@ -1,6 +1,10 @@
 ''' A toy example of playing against rule-based bot on UNO
 '''
 
+import sys
+
+sys.path.insert(1, '../../')
+
 import rlcard
 from rlcard import models
 from rlcard.agents.human_agents.uno_human_agent import HumanAgent, _print_action
