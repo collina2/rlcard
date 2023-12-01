@@ -8,7 +8,7 @@ from rlcard.games.uno.utils import ACTION_SPACE, ACTION_LIST
 from rlcard.games.uno.utils import cards2list
 
 DEFAULT_GAME_CONFIG = {
-        'game_num_players': 2,
+        'game_num_players': 3,
         }
 
 class UnoEnv(Env):
