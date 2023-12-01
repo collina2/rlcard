@@ -61,7 +61,7 @@ def evaluate(args):
     # Evaluate
     rewards = tournament(env, args.num_games)
     for position, reward in enumerate(rewards):
-        print(position, args.models[position], reward)
+        print("Model:", args.models[position], "| Win Rate:", str((reward + 1) / 2 * 100) + "%")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("Evaluation example in RLCard")
@@ -85,7 +85,7 @@ if __name__ == '__main__':
         nargs='*',
         default=[
             'experiments/uno_nfsp_result/model.pth',
-            'experiments/uno_dqn_result/model.pth',
+            'random',
             'random',
         ], # add in our own model here later when we change it
         # compare against regular model, our model, and random
@@ -111,6 +111,8 @@ if __name__ == '__main__':
 
     # x = -0.2
     # percentWon = (x + 1) / 2
+
+     
 
 
     args = parser.parse_args()
