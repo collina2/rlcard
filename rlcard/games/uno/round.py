@@ -114,7 +114,7 @@ class UnoRound:
                 elif card.color == target.color:
                     legal_actions.append(card.str)
 
-        # target is aciton card or number card
+        # target is action card or number card
         else:
             for card in hand:
                 if card.type == 'wild':
@@ -132,6 +132,7 @@ class UnoRound:
             legal_actions = wild_4_actions
         if not legal_actions:
             legal_actions = ['draw']
+
         return legal_actions
 
     def get_state(self, players, player_id):

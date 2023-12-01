@@ -12,8 +12,16 @@ class UnoPlayer:
         self.hand = []
         self.stack = []
 
+        # new vars:
+        self.reward = 0
+
     def get_player_id(self):
         ''' Return the id of the player
         '''
 
         return self.player_id
+    
+    def get_player_reward(self):
+        '''Return the reward of the player
+        '''
+        return self.reward

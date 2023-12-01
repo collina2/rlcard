@@ -61,7 +61,8 @@ def evaluate(args):
     # Evaluate
     rewards = tournament(env, args.num_games)
     for position, reward in enumerate(rewards):
-        print("Model:", args.models[position], "| Win Rate:", str((reward + 1) / 2 * 100) + "%")
+        # change win rate formula, right now its just using average reward which we will change
+        print("Model:", args.models[position], "| Win Rate:", str((reward + 1) / 3 * 100) + "%")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("Evaluation example in RLCard")
