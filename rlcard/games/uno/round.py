@@ -1,6 +1,6 @@
 from rlcard.games.uno.card import UnoCard
 from rlcard.games.uno.utils import cards2list, WILD, WILD_DRAW_4
-
+from rlcard.games.uno.payoffs import Payoffs
 
 class UnoRound:
 
@@ -97,7 +97,8 @@ class UnoRound:
         wild_flag = 0
         wild_draw_4_flag = 0
         legal_actions = []
-        wild_4_actions = []
+        valid_card_count = 0
+        # wild_4_actions = []
         hand = players[player_id].hand
         target = self.target
         if target.type == 'wild':
@@ -106,13 +107,16 @@ class UnoRound:
                     if card.trait == 'wild_draw_4':
                         if wild_draw_4_flag == 0:
                             wild_draw_4_flag = 1
-                            wild_4_actions.extend(WILD_DRAW_4)
+                            legal_actions.extend(WILD_DRAW_4)
+                            valid_card_count += 1
                     else:
                         if wild_flag == 0:
                             wild_flag = 1
                             legal_actions.extend(WILD)
+                            valid_card_count += 1
                 elif card.color == target.color:
                     legal_actions.append(card.str)
+                    valid_card_count += 1
 
         # target is action card or number card
         else:
@@ -121,18 +125,37 @@ class UnoRound:
                     if card.trait == 'wild_draw_4':
                         if wild_draw_4_flag == 0:
                             wild_draw_4_flag = 1
-                            wild_4_actions.extend(WILD_DRAW_4)
+                            legal_actions.extend(WILD_DRAW_4)
+                            valid_card_count += 1
                     else:
                         if wild_flag == 0:
                             wild_flag = 1
                             legal_actions.extend(WILD)
+                            valid_card_count += 1
                 elif card.color == target.color or card.trait == target.trait:
                     legal_actions.append(card.str)
-        if not legal_actions:
-            legal_actions = wild_4_actions
+                    valid_card_count += 1
+        # if not legal_actions:
+        #     legal_actions = wild_4_actions
         if not legal_actions:
             legal_actions = ['draw']
 
+        # reward or penalize for increasing/decreasing your valid card options to total options ratio
+        previous_legal_actions_ratio = players[player_id].previous_legal_actions_ratio
+        if len(hand) != 0:
+            current_legal_actions_ratio = valid_card_count / len(hand)
+            if previous_legal_actions_ratio != None and previous_legal_actions_ratio != 0:
+                delta_legal_actions = current_legal_actions_ratio / previous_legal_actions_ratio
+                if delta_legal_actions > 1:
+                    players[player_id].reward += Payoffs.GAINED_VALID_OPTIONS_PER_CARD.value * delta_legal_actions
+                    print("Player ", player_id, "| Increase in valid options ratio by", delta_legal_actions, "| Cur Reward:", players[player_id].reward)
+                elif delta_legal_actions < 1:
+                    if delta_legal_actions == 0:
+                        delta_legal_actions = 1
+                    delta_legal_actions = 1 / delta_legal_actions
+                    players[player_id].reward += Payoffs.LOST_VALID_OPTIONS_PER_CARD.value * delta_legal_actions
+                    print("Player", player_id, "| Decrease in valid options ratio by", delta_legal_actions, "| Cur Reward:", players[player_id].reward)
+            players[player_id].previous_legal_actions_ratio = current_legal_actions_ratio
         return legal_actions
 
     def get_state(self, players, player_id):

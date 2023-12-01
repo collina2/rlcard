@@ -14,6 +14,7 @@ class UnoPlayer:
 
         # new vars:
         self.reward = 0
+        self.previous_legal_actions_ratio = None
 
     def get_player_id(self):
         ''' Return the id of the player
