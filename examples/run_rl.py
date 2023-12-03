@@ -174,7 +174,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--log_dir',
         type=str,
-        default='experiments/uno_nfsp_result/',
+        default='experiments/uno_dqn_result_BEFORE/',
     )
     
     parser.add_argument(
