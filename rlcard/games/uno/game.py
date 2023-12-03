@@ -4,11 +4,11 @@ import numpy as np
 from rlcard.games.uno import Dealer
 from rlcard.games.uno import Player
 from rlcard.games.uno import Round
-
+from rlcard.games.uno.payoffs import Payoffs
 
 class UnoGame:
 
-    def __init__(self, allow_step_back=False, num_players=2):
+    def __init__(self, allow_step_back=False, num_players=3):
         self.allow_step_back = allow_step_back
         self.np_random = np.random.RandomState()
         self.num_players = num_players
@@ -34,7 +34,7 @@ class UnoGame:
         # Initialize a dealer that can deal cards
         self.dealer = Dealer(self.np_random)
 
-        # Initialize four players to play the game
+        # Initialize x players to play the game
         self.players = [Player(i, self.np_random) for i in range(self.num_players)]
 
         # Deal 7 cards to each player to prepare for the game
@@ -113,10 +113,10 @@ class UnoGame:
         '''
         winner = self.round.winner
         if winner is not None and len(winner) == 1:
-            self.payoffs[winner[0]] = 1
+            self.payoffs[winner[0]] += Payoffs.WON_GAME.value + self.players[winner[0]].get_player_reward()
             for i in range(len(self.payoffs)):
                 if i != winner[0]:
-                    self.payoffs[i] = -1
+                    self.payoffs[i] += Payoffs.LOST_GAME.value + self.players[i].get_player_reward()
 
         return self.payoffs
 
@@ -161,3 +161,8 @@ class UnoGame:
             (boolean): True if the game is over
         '''
         return self.round.is_over
+
+
+    # new funcs:
+    def get_winner(self):
+        return self.round.winner[0]

@@ -40,7 +40,6 @@ class Env(object):
 
         # Get the number of players/actions in this game
         self.num_players = self.game.get_num_players()
-        print("NUM PLAYERS: ", self.num_players)
         self.num_actions = self.game.get_num_actions()
 
         # A counter for the timesteps
@@ -48,6 +47,9 @@ class Env(object):
 
         # Set random seed, default is None
         self.seed(config['seed'])
+
+        # New vars:
+        self.current_winner = None
 
 
     def reset(self):
@@ -146,6 +148,8 @@ class Env(object):
             else:
                 action = self.agents[player_id].step(state)
 
+            # print("action: ", action)
+
             # Environment steps
             next_state, next_player_id = self.step(action, self.agents[player_id].use_raw)
             # Save action
@@ -162,10 +166,14 @@ class Env(object):
         # Add a final state to all the players
         for player_id in range(self.num_players):
             state = self.get_state(player_id)
+
             trajectories[player_id].append(state)
 
         # Payoffs
         payoffs = self.get_payoffs()
+        # print("Payoffs:", payoffs)
+
+        self.current_winner = self.game.get_winner()
 
         return trajectories, payoffs
 
