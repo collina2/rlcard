@@ -251,3 +251,76 @@ def plot_curve(csv_path, save_path, algorithm):
 
         fig.savefig(save_path)
 
+def plot_curve_best_fit(csv_path, save_path, algorithm, degree=1):
+    ''' Read data from csv file and plot the results with a line of best fit
+    '''
+    import os
+    import csv
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    with open(csv_path) as csvfile:
+        reader = csv.DictReader(csvfile)
+        xs = []
+        ys = []
+        for row in reader:
+            xs.append(int(row['episode']))
+            ys.append(float(row['reward']))
+
+    # Fit a polynomial of the specified degree
+    coeffs = np.polyfit(xs, ys, degree)
+    polynomial = np.poly1d(coeffs)
+
+    # Generate y values for the line of best fit
+    best_fit_ys = polynomial(xs)
+
+    fig, ax = plt.subplots()
+    ax.plot(xs, ys, label=algorithm)
+    ax.plot(xs, best_fit_ys, label=f'Best Fit (Degree {degree})', linestyle='dashed')
+    ax.set(xlabel='episode', ylabel='reward')
+    ax.legend()
+    ax.grid()
+
+    save_dir = os.path.dirname(save_path)
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    fig.savefig(save_path)
+
+def plot_curve_best_fit2(csv_path, save_path, algorithm, degree=3, num_points=100):
+    ''' Read data from csv file and plot the results with a curve of best fit '''
+    import os
+    import csv
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    with open(csv_path) as csvfile:
+        reader = csv.DictReader(csvfile)
+        xs = []
+        ys = []
+        for row in reader:
+            xs.append(int(row['episode']))
+            ys.append(float(row['reward']))
+
+    # Fit a polynomial of the specified degree
+    coeffs = np.polyfit(xs, ys, degree)
+    polynomial = np.poly1d(coeffs)
+
+    # Generate y values for the curve of best fit
+    best_fit_xs = np.linspace(min(xs), max(xs), num_points)
+    best_fit_ys = polynomial(best_fit_xs)
+
+    fig, ax = plt.subplots()
+    ax.plot(xs, ys, label=algorithm)
+    ax.plot(best_fit_xs, best_fit_ys, label=f'Curve of Best Fit (Degree {degree})', linestyle='dashed')
+    ax.set(xlabel='episode', ylabel='reward')
+    ax.legend()
+    ax.grid()
+
+    save_dir = os.path.dirname(save_path)
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    fig.savefig(save_path)
+    # Example usage:
+    # plot_curve('your_csv_file.csv', 'output_plot.png', 'Your Algorithm', degree=3, num_points=100)

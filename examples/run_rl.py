@@ -17,6 +17,8 @@ from rlcard.utils import (
     tournament,
     reorganize,
     plot_curve,
+    plot_curve_best_fit,
+    plot_curve_best_fit2,
     Logger
 )
 # from rlcard.utils.logger import (
@@ -105,8 +107,12 @@ def train(args):
         # Get the paths
         csv_path, fig_path = logger.csv_path, logger.fig_path
 
-    # Plot the learning curve
-    plot_curve(csv_path, fig_path, args.algorithm)
+    # Plot the learning curve:
+
+    # plot_curve(csv_path, fig_path, args.algorithm)
+    plot_curve_best_fit(csv_path, fig_path, args.algorithm)
+    # plot_curve_best_fit2(csv_path, fig_path, args.algorithm, degree=4)
+    print(csv_path, ' | ', fig_path)
 
     # Save model
     save_path = os.path.join(args.log_dir, 'model.pth')
