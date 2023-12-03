@@ -59,10 +59,10 @@ def evaluate(args):
     env.set_agents(agents)
 
     # Evaluate
-    rewards = tournament(env, args.num_games)
+    games_won = [0, 0, 0]
+    rewards = tournament(env, args.num_games, games_won)
     for position, reward in enumerate(rewards):
-        # change win rate formula, right now its just using average reward which we will change
-        print("Model:", args.models[position], "| Win Rate:", str((reward + 1) / 3 * 100) + "%")
+        print("Model:", args.models[position], "| Avg Reward:", reward, "| Win Rate:", str(games_won[position] / args.num_games * 100) + "%")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("Evaluation example in RLCard")
@@ -100,21 +100,15 @@ if __name__ == '__main__':
     parser.add_argument(
         '--seed',
         type=int,
-        default=42,
-    )
+        default=257,
+    ) # 257 gave highest for 10,000 - 34.56%
+
     parser.add_argument(
         '--num_games',
         type=int,
-        default=100,
+        default=10000,
     )
-
-    # 2/3 = 0.67 better = 33% worse
-
-    # x = -0.2
-    # percentWon = (x + 1) / 2
-
      
-
 
     args = parser.parse_args()
 

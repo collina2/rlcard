@@ -65,9 +65,30 @@ class UnoRound:
         card_info = action.split('-')
         color = card_info[0]
         trait = card_info[1]
+        
+
+        # reward or penalize for increasing/decreasing your valid card options to total options ratio
+        # previous_legal_actions_ratio = player.previous_legal_actions_ratio
+        # if len(player.hand) != 0:
+        #     current_legal_actions_ratio = valid_card_count / len(hand)
+        #     if previous_legal_actions_ratio != None and previous_legal_actions_ratio != 0:
+        #         delta_legal_actions = current_legal_actions_ratio / previous_legal_actions_ratio
+        #         if delta_legal_actions > 1:
+        #             players[player_id].reward += Payoffs.GAINED_VALID_OPTIONS_PER_CARD.value * delta_legal_actions
+        #             # print("Player ", player_id, "| Increase in valid options ratio by", delta_legal_actions, "| Cur Reward:", players[player_id].reward)
+        #         elif delta_legal_actions < 1:
+        #             if delta_legal_actions == 0:
+        #                 delta_legal_actions = 1
+        #             delta_legal_actions = 1 / delta_legal_actions
+        #             players[player_id].reward += Payoffs.LOST_VALID_OPTIONS_PER_CARD.value * delta_legal_actions
+        #             # print("Player", player_id, "| Decrease in valid options ratio by", delta_legal_actions, "| Cur Reward:", players[player_id].reward)
+        #     players[player_id].previous_legal_actions_ratio = current_legal_actions_ratio
+
+
         # remove corresponding card
         remove_index = None
         if trait == 'wild' or trait == 'wild_draw_4':
+            
             for index, card in enumerate(player.hand):
                 if trait == card.trait:
                     card.color = color # update the color of wild card to match the action
@@ -79,7 +100,19 @@ class UnoRound:
                     remove_index = index
                     break
         card = player.hand.pop(remove_index)
+
+        # if self.current_player == 0:
+        #     print("COUNT OF COLOR", color, "=", player.get_count_of_color(color))
+
+        player.judge_decision(color, trait)
+        
+
         if not player.hand:
+            # TODO: maybe check if previous_player had valid options to prevent the next player from winning?
+            previous_player = (self.current_player - self.direction) % self.num_players
+            players[previous_player].adjust_reward(Payoffs.CAUSED_NEXT_PLAYER_TO_WIN.value)
+            # if previous_player == 0:
+            #     print("Caused player to win | Current Reward:", players[previous_player].reward)
             self.is_over = True
             self.winner = [self.current_player]
         self.played_cards.append(card)
@@ -140,22 +173,10 @@ class UnoRound:
         if not legal_actions:
             legal_actions = ['draw']
 
-        # reward or penalize for increasing/decreasing your valid card options to total options ratio
-        previous_legal_actions_ratio = players[player_id].previous_legal_actions_ratio
-        if len(hand) != 0:
-            current_legal_actions_ratio = valid_card_count / len(hand)
-            if previous_legal_actions_ratio != None and previous_legal_actions_ratio != 0:
-                delta_legal_actions = current_legal_actions_ratio / previous_legal_actions_ratio
-                if delta_legal_actions > 1:
-                    players[player_id].reward += Payoffs.GAINED_VALID_OPTIONS_PER_CARD.value * delta_legal_actions
-                    print("Player ", player_id, "| Increase in valid options ratio by", delta_legal_actions, "| Cur Reward:", players[player_id].reward)
-                elif delta_legal_actions < 1:
-                    if delta_legal_actions == 0:
-                        delta_legal_actions = 1
-                    delta_legal_actions = 1 / delta_legal_actions
-                    players[player_id].reward += Payoffs.LOST_VALID_OPTIONS_PER_CARD.value * delta_legal_actions
-                    print("Player", player_id, "| Decrease in valid options ratio by", delta_legal_actions, "| Cur Reward:", players[player_id].reward)
-            players[player_id].previous_legal_actions_ratio = current_legal_actions_ratio
+        players[player_id].valid_card_count = valid_card_count
+        # print("player", player_id, "valid cards =", players[player_id].valid_card_count)
+        players[player_id].legal_actions = legal_actions
+        # print("player", player_id, "legal actions =", players[player_id].legal_actions)
         return legal_actions
 
     def get_state(self, players, player_id):

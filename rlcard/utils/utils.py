@@ -197,12 +197,13 @@ def remove_illegal(action_probs, legal_actions):
         probs /= sum(probs)
     return probs
 
-def tournament(env, num):
+def tournament(env, num, games_won = None):
     ''' Evaluate he performance of the agents in the environment
 
     Args:
         env (Env class): The environment to be evaluated.
         num (int): The number of games to play.
+        games_won (list[int] or None): similar to payoffs, but instead of saving rewards it saves games won count for each player
 
     Returns:
         A list of avrage payoffs for each player
@@ -210,7 +211,11 @@ def tournament(env, num):
     payoffs = [0 for _ in range(env.num_players)]
     counter = 0
     while counter < num:
+        if counter % 100 == 0:
+            print("Game", counter)
         _, _payoffs = env.run(is_training=False)
+        if games_won != None:
+            games_won[env.current_winner] += 1
         if isinstance(_payoffs, list):
             for _p in _payoffs:
                 for i, _ in enumerate(payoffs):
@@ -221,8 +226,13 @@ def tournament(env, num):
                 payoffs[i] += _payoffs[i]
             counter += 1
     for i, _ in enumerate(payoffs):
-        print(i, payoffs)
+        
         payoffs[i] /= counter
+        
+    print("AVG PAYOFFS:", payoffs)
+    print("GAMES WON:", games_won)
+
+    # TODO: normalize the payoffs to have a max and min cap?
     
     return payoffs
 

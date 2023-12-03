@@ -161,3 +161,8 @@ class UnoGame:
             (boolean): True if the game is over
         '''
         return self.round.is_over
+
+
+    # new funcs:
+    def get_winner(self):
+        return self.round.winner[0]
