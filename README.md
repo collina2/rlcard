@@ -1,4 +1,7 @@
 # RLCard: A Toolkit for Reinforcement Learning in Card Games
+
+## Note: the repository was previously used for many different games, we have removed most of the irrelevant files and only kept what we used and modified for our UNO RL Project (for CS 175 at UCI)
+
 <img width="500" src="https://dczha.com/files/rlcard/logo.jpg" alt="Logo" />
 
 [![Testing](https://github.com/datamllab/rlcard/actions/workflows/python-package.yml/badge.svg)](https://github.com/datamllab/rlcard/actions/workflows/python-package.yml)
@@ -8,7 +11,6 @@
 [![Downloads](https://pepy.tech/badge/rlcard/month)](https://pepy.tech/project/rlcard)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[中文文档](README.zh-CN.md)
 
 RLCard is a toolkit for Reinforcement Learning (RL) in card games. It supports multiple card environments with easy-to-use interfaces for implementing various reinforcement learning and searching algorithms. The goal of RLCard is to bridge reinforcement learning and imperfect information games. RLCard is developed by [DATA Lab](http://faculty.cs.tamu.edu/xiahu/) at Rice and Texas A&M University, and community contributors.
 
