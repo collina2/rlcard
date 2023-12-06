@@ -61,8 +61,9 @@ def evaluate(args):
     # Evaluate
     games_won = [0, 0, 0]
     rewards = tournament(env, args.num_games, games_won)
+    model_names = ["New DQN", "Old DQN", "Old DQN"]
     for position, reward in enumerate(rewards):
-        print("Model:", args.models[position], "| Avg Reward:", reward, "| Win Rate:", str(games_won[position] / args.num_games * 100) + "%")
+        print("Model:", model_names[position], "| Avg Reward:", format(reward, '.3f'), "| Win Rate:", str(format(games_won[position] / args.num_games * 100, '.2f')) + "%")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("Evaluation example in RLCard")
@@ -85,23 +86,22 @@ if __name__ == '__main__':
         '--models',
         nargs='*',
         default=[
-            'experiments/uno_nfsp_result/model.pth',
-            'random',
-            'random',
-        ], # add in our own model here later when we change it
-        # compare against regular model, our model, and random
-        # but may need to adjust player size (from 2 to 3)
+            'experiments/DQN Custom Rewards/model.pth',
+            'experiments/DQN Basic Rewards/model.pth',
+            'experiments/DQN Basic Rewards/model.pth',
+        ],
     )
     parser.add_argument(
         '--cuda',
         type=str,
         default='',
     )
+
     parser.add_argument(
         '--seed',
         type=int,
-        default=257,
-    ) # 257 gave highest for 10,000 - 34.56%
+        default=47,
+    )
 
     parser.add_argument(
         '--num_games',

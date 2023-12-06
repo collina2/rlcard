@@ -2,6 +2,42 @@ import numpy as np
 
 from rlcard.games.base import Card
 
+def plot_curve_best_fit(csv_path, save_path, algorithm, degree=1):
+    ''' Read data from csv file and plot the results with a line of best fit
+    '''
+    import os
+    import csv
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    with open(csv_path) as csvfile:
+        reader = csv.DictReader(csvfile)
+        xs = []
+        ys = []
+        for row in reader:
+            xs.append(int(row['episode']))
+            ys.append(float(row['reward']))
+
+    # Fit a polynomial of the specified degree
+    coeffs = np.polyfit(xs, ys, degree)
+    polynomial = np.poly1d(coeffs)
+
+    # Generate y values for the line of best fit
+    best_fit_ys = polynomial(xs)
+
+    fig, ax = plt.subplots()
+    ax.plot(xs, ys, label=algorithm)
+    ax.plot(xs, best_fit_ys, label=f'Best Fit (Degree {degree})', linestyle='dashed')
+    ax.set(xlabel='episode', ylabel='reward')
+    ax.legend()
+    ax.grid()
+
+    save_dir = os.path.dirname(save_path)
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    fig.savefig(save_path)
+
 def set_seed(seed):
     if seed is not None:
         import subprocess

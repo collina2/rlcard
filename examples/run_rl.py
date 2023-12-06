@@ -17,6 +17,7 @@ from rlcard.utils import (
     tournament,
     reorganize,
     plot_curve,
+    plot_curve_best_fit,
     Logger
 )
 # from rlcard.utils.logger import (
@@ -106,7 +107,7 @@ def train(args):
         csv_path, fig_path = logger.csv_path, logger.fig_path
 
     # Plot the learning curve
-    plot_curve(csv_path, fig_path, args.algorithm)
+    plot_curve_best_fit(csv_path, fig_path, args.algorithm)
 
     # Save model
     save_path = os.path.join(args.log_dir, 'model.pth')
@@ -134,7 +135,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--algorithm',
         type=str,
-        default='nfsp',
+        default='dqn',
         choices=[
             'dqn',
             'nfsp',
@@ -153,22 +154,23 @@ if __name__ == '__main__':
     parser.add_argument(
         '--num_episodes',
         type=int,
-        default=100,
+        default=5000,
     )
     parser.add_argument(
         '--num_eval_games',
         type=int,
-        default=100,
+        default=2000,
     )
+
     parser.add_argument(
         '--evaluate_every',
         type=int,
-        default=1,
+        default=100,
     )
     parser.add_argument(
         '--log_dir',
         type=str,
-        default='experiments/uno_nfsp_result/',
+        default='experiments/uno_dqn_result_cr_huge/',
     )
     
     parser.add_argument(
