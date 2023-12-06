@@ -30,11 +30,7 @@ setuptools.setup(
     keywords=["Reinforcement Learning", "game", "RL", "AI"],
     packages=setuptools.find_packages(exclude=('tests',)),
     package_data={
-        'rlcard': ['models/pretrained/leduc_holdem_cfr/*',
-                   'games/uno/jsondata/action_space.json',
-                   'games/limitholdem/card2index.json',
-                   'games/leducholdem/card2index.json',
-                   'games/doudizhu/jsondata.zip',
+        'rlcard': ['games/uno/jsondata/action_space.json',
                    'games/uno/jsondata/*',
                    ]},
     install_requires=[
