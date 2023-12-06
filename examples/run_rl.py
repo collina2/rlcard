@@ -154,23 +154,23 @@ if __name__ == '__main__':
     parser.add_argument(
         '--num_episodes',
         type=int,
-        default=5000,
+        default=2,
     )
     parser.add_argument(
         '--num_eval_games',
         type=int,
-        default=2000,
+        default=200,
     )
 
     parser.add_argument(
         '--evaluate_every',
         type=int,
-        default=100,
+        default=1,
     )
     parser.add_argument(
         '--log_dir',
         type=str,
-        default='experiments/uno_dqn_result_cr_huge/',
+        default='experiments/testing-deletion/',
     )
     
     parser.add_argument(

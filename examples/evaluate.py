@@ -61,7 +61,7 @@ def evaluate(args):
     # Evaluate
     games_won = [0, 0, 0]
     rewards = tournament(env, args.num_games, games_won)
-    model_names = ["New DQN", "Old DQN", "Old DQN"]
+    model_names = ["New DQN", "Old DQN", "Random "]
     for position, reward in enumerate(rewards):
         print("Model:", model_names[position], "| Avg Reward:", format(reward, '.3f'), "| Win Rate:", str(format(games_won[position] / args.num_games * 100, '.2f')) + "%")
 
@@ -88,7 +88,7 @@ if __name__ == '__main__':
         default=[
             'experiments/DQN Custom Rewards/model.pth',
             'experiments/DQN Basic Rewards/model.pth',
-            'experiments/DQN Basic Rewards/model.pth',
+            'random',
         ],
     )
     parser.add_argument(
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--num_games',
         type=int,
-        default=10000,
+        default=500,
     )
      
 
