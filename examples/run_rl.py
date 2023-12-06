@@ -140,7 +140,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--algorithm',
         type=str,
-        default='nfsp',
+        default='dqn',
         choices=[
             'dqn',
             'nfsp',
@@ -159,7 +159,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--num_episodes',
         type=int,
-        default=100,
+        default=1000,
     )
     parser.add_argument(
         '--num_eval_games',
@@ -169,12 +169,12 @@ if __name__ == '__main__':
     parser.add_argument(
         '--evaluate_every',
         type=int,
-        default=1,
+        default=10,
     )
     parser.add_argument(
         '--log_dir',
         type=str,
-        default='experiments/uno_dqn_result_BEFORE/',
+        default='experiments/uno_dqn_result_old/',
     )
     
     parser.add_argument(

@@ -208,7 +208,7 @@ def tournament(env, num, games_won = None):
     Returns:
         A list of avrage payoffs for each player
     '''
-    payoffs = [0 for _ in range(env.numplayers)]
+    payoffs = [0 for _ in range(env.num_players)]
     counter = 0
     while counter < num:
         if counter % 100 == 0:
@@ -217,15 +217,15 @@ def tournament(env, num, games_won = None):
         if games_won != None:
             games_won[env.current_winner] += 1
         if isinstance(_payoffs, list):
-            for _p in payoffs:
+            for _p in _payoffs:
                 for i,  in enumerate(payoffs):
-                    payoffs[i] += p[i]
+                    payoffs[i] += _p[i]
                 counter += 1
         else:
-            for i,  in enumerate(payoffs):
-                payoffs[i] += payoffs[i]
+            for i, _ in enumerate(payoffs):
+                payoffs[i] += _payoffs[i]
             counter += 1
-    for i,  in enumerate(payoffs):
+    for i, _ in enumerate(payoffs):
 
         payoffs[i] /= counter
 
